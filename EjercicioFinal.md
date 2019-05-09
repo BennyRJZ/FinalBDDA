@@ -96,6 +96,15 @@ db.businesses.find({
     hours.Thursday   : { $regex : /^([0][0-9]|[1][0-6]).-([1][7-9]|[2][0-3])./ }
 }).sort({stars:-1}).limit(5)
 ```
+*   Corrección el la escritura de la expresión regular:
+```js
+db.businesses.find({
+    is_open            : 1,
+    location           : { $geoWithin: {$centerSphere: [[-79.3908603,43.6580313],3/6378.1]  } },
+    categories         : { $regex : ".*Burgers.*"},
+    "hours.Thursday"   : { $regex : /^([0][0-9]|[1][0-6]).*-([1][7-9]|[2][0-3]).*/ },
+}).sort({stars:-1}).limit(5)
+```
 7.  Liste 20 lugares (si existen) donde puedo comer “burritos” en la ciudad de Toronto.
 *   Primera consulta sin utilizar la colección tips. No arroja resultados con coincidencias en el nombre o la categoria con la palabra `("burritos")`
 ```js
